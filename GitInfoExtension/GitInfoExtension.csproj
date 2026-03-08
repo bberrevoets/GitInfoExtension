@@ -32,4 +32,13 @@
     <None Include=".vsextension\string-resources.json" />
   </ItemGroup>
 
+  <Target Name="StripBetaForRelease" AfterTargets="GetBuildVersion"
+          Condition="'$(StripPrerelease)' == 'true'">
+    <PropertyGroup>
+      <InformationalVersion>$(SimpleVersion)+$(GitCommitIdShort)</InformationalVersion>
+      <Version>$(SimpleVersion)</Version>
+      <PackageVersion>$(SimpleVersion)</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
 </Project>

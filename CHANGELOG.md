@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+
+- Release builds on `main` no longer produce `-beta` suffix in tags,
+  GitHub Release names, and assembly metadata. The previous "Set stable
+  version" step was ineffective because nbgv reads from committed git
+  state, not the working tree. Replaced with `SimpleVersion`-based
+  release naming and a `StripBetaForRelease` MSBuild target activated
+  by `/p:StripPrerelease=true`.
+
 ## [1.0.0] - 2026-03-08
 
 ### Added
