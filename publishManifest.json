@@ -1,6 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/vsix-publish",
   "categories": ["Other"],
+  "description": "View open issues and pull requests for your repository inside Visual Studio.",
   "identity": {
     "internalName": "GitInfoExtension"
   },
