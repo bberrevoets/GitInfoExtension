@@ -1,0 +1,178 @@
+<DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:vs="http://schemas.microsoft.com/visualstudio/extensibility/2022/xaml"
+              xmlns:styles="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+              xmlns:colors="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header: repo name + refresh button -->
+        <DockPanel Grid.Row="0" Margin="8">
+            <Button DockPanel.Dock="Right"
+                    Content="Refresh"
+                    Command="{Binding RefreshCommand}"
+                    Padding="8,4"
+                    Margin="8,0,0,0" />
+            <TextBlock Text="{Binding RepositoryName}"
+                       FontWeight="Bold"
+                       FontSize="14"
+                       VerticalAlignment="Center" />
+        </DockPanel>
+
+        <!-- Scrollable content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Global status message (shown when both sections are collapsed) -->
+                <TextBlock Text="{Binding StatusMessage}"
+                           FontStyle="Italic"
+                           Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                           Margin="8,4,8,4" />
+
+                <!-- Repository list section (no solution open, PAT configured) -->
+                <StackPanel Visibility="{Binding RepoListVisibility}">
+                    <TextBlock Text="Repositories with Open Items"
+                               FontWeight="Bold"
+                               FontSize="13"
+                               Margin="8,4,8,2" />
+                    <TextBlock Text="{Binding RepositoriesStatusMessage}"
+                               FontStyle="Italic"
+                               Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                               Margin="8,0,8,4" />
+                    <ItemsControl ItemsSource="{Binding Repositories}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource {x:Static styles:VsBrushes.PanelBorderKey}}"
+                                        BorderThickness="0,0,0,1"
+                                        Padding="8,6">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding FullName}"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.ControlLinkTextKey}}" />
+                                        <TextBlock Text="{Binding OpenItemsCount}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding Description}"
+                                                   FontSize="11"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Detail section: Issues + Pull Requests (solution open) -->
+                <StackPanel Visibility="{Binding RepoDetailVisibility}">
+                    <!-- Issues section -->
+                    <TextBlock Text="Issues"
+                               FontWeight="Bold"
+                               FontSize="13"
+                               Margin="8,4,8,2" />
+                    <TextBlock Text="{Binding IssuesStatusMessage}"
+                               FontStyle="Italic"
+                               Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                               Margin="8,0,8,4" />
+                    <ItemsControl ItemsSource="{Binding Issues}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource {x:Static styles:VsBrushes.PanelBorderKey}}"
+                                        BorderThickness="0,0,0,1"
+                                        Padding="8,6">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding DisplayNumber}"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource {x:Static styles:VsBrushes.ControlLinkTextKey}}"
+                                                       Margin="0,0,8,0" />
+                                            <TextBlock Text="{Binding Title}"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding DisplayInfo}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding Labels}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Pull Requests section -->
+                    <TextBlock Text="Pull Requests"
+                               FontWeight="Bold"
+                               FontSize="13"
+                               Margin="8,12,8,2" />
+                    <TextBlock Text="{Binding PullRequestStatusMessage}"
+                               FontStyle="Italic"
+                               Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                               Margin="8,0,8,4" />
+                    <ItemsControl ItemsSource="{Binding PullRequests}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource {x:Static styles:VsBrushes.PanelBorderKey}}"
+                                        BorderThickness="0,0,0,1"
+                                        Padding="8,6">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding DisplayNumber}"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource {x:Static styles:VsBrushes.ControlLinkTextKey}}"
+                                                       Margin="0,0,8,0" />
+                                            <TextBlock Text="{Binding DraftBadge}"
+                                                       FontWeight="Bold"
+                                                       FontSize="11"
+                                                       Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                       Margin="0,0,8,0" />
+                                            <TextBlock Text="{Binding Title}"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding BranchInfo}"
+                                                   FontSize="11"
+                                                   FontFamily="Consolas"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding DisplayInfo}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                        <TextBlock Text="{Binding Labels}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                                                   Margin="0,2,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer hint -->
+        <TextBlock Grid.Row="2"
+                   Text="Configure PAT in Tools &gt; Options &gt; Git Info Extension. Restart VS after first install if settings are missing."
+                   FontSize="11"
+                   FontStyle="Italic"
+                   Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
+                   Margin="8,4" />
+    </Grid>
+</DataTemplate>

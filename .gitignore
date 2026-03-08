@@ -1,0 +1,27 @@
+.claude/settings.local.json
+CLAUDE.md
+TESTREPORT.md
+
+# .NET build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# VSIX output
+*.vsix
+
+# NuGet
+packages/
+*.nupkg
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+Temp/
