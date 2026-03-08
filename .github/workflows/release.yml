@@ -27,6 +27,7 @@ jobs:
         run: dotnet tool install -g nbgv
 
       - name: Set stable version
+        if: github.ref == 'refs/heads/main'
         run: |
           $vj = Get-Content version.json -Raw | ConvertFrom-Json
           $vj.version = $vj.version -replace '-beta$', ''
