@@ -13,6 +13,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" Version="17.14.40608">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Octokit" Version="13.0.1" />
   </ItemGroup>
 
