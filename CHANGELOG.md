@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-03-08
+
 ### Added
 
+- `MARKETPLACE.md` -- user-facing overview for the VS Marketplace page,
+  separate from the developer-focused README
 - Automatic versioning via Nerdbank.GitVersioning (`version.json`)
   - `Development` builds: `1.0.X-beta` (pre-release)
   - `main` builds: `1.0.X` (stable)
@@ -57,6 +61,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- `publishManifest.json` now points `overview` to `MARKETPLACE.md`
+  instead of `README.md`
 - Renamed extension from "GitHub Info" to "Git Info" to prepare for
   multi-provider support (e.g. Azure DevOps)
 - Renamed project directory `GithubInfoExtension` to `GitInfoExtension`
