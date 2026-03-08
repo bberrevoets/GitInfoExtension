@@ -138,6 +138,14 @@ The release workflow publishes to the
 - GitHub API client (Octokit.net 13.x)
 - C# / .NET 8.0
 
+## VS Marketplace
+
+The Marketplace overview page uses `MARKETPLACE.md` (user-facing) instead
+of this README. The publish manifest (`publishManifest.json`) references
+that file. Keep `MARKETPLACE.md` focused on end-user information
+(features, installation, configuration, usage) and this README focused on
+development.
+
 ## Branch Structure
 
 - `Development` -- default branch for active development
