@@ -24,6 +24,8 @@ This extension integrates with the GitHub API to provide an in-IDE view of:
 - **Solution monitoring** -- detects solution open, close, and switch events
   within ~3 seconds and refreshes automatically
 - **Manual refresh** -- one-click Refresh button in the tool window header
+- **Extension icon** -- custom icon and preview image shown in the
+  Extensions Manager
 
 ## Getting Started
 

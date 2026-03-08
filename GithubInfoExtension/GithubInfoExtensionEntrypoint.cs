@@ -36,6 +36,8 @@ internal class GithubInfoExtensionEntrypoint : Extension
         {
             MoreInfo = "https://github.com/bberrevoets/GithubInfoExtension",
             Tags = ["GitHub", "Git", "Issues", "Pull Requests", "Repository"],
+            Icon = "Images/Icon.png",
+            PreviewImage = "Images/PreviewImage.png",
         },
     };
 

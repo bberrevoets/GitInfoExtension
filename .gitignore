@@ -1,4 +1,6 @@
 .claude/settings.local.json
+CLAUDE.md
+TESTREPORT.md
 
 # .NET build output
 bin/

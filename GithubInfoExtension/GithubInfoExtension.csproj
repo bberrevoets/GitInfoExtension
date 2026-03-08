@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Images\Icon.png" />
+    <Content Include="Images\PreviewImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include=".vsextension\string-resources.json" />
   </ItemGroup>
 
