@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- HTML-formatted extension description with features, getting started
+  steps, and author credit in Extensions Manager
+- `MoreInfo` URL and search tags in extension metadata
+- VS2022 installer compatibility note in README.md
+- PAT cleanup step in uninstall instructions
+- Usage section in README.md explaining menu location and tool window
+- First-install restart note for settings page visibility
 - TESTREPORT.md with initial testing results and feedback
 - Installation and testing documentation in README.md with step-by-step
   instructions for VSIX install, F5 debugging, and uninstalling
@@ -36,6 +43,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Moved tool window command from View > Other Windows to Extensions menu
+- Improved no-PAT status message with settings location and restart hint
+- Updated footer hint in tool window XAML with restart note
 - Repository branch structure: `Development` as default branch, `main` as
   production branch
 - GitHub rulesets to protect `Development` and `main` branches

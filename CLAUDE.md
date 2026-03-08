@@ -30,7 +30,8 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 
 The extension follows the VS2026 out-of-process extensibility model:
 
-- **Entrypoint**: `GithubInfoExtensionEntrypoint` registers DI services
+- **Entrypoint**: `GithubInfoExtensionEntrypoint` registers DI services and
+  defines extension metadata (HTML description, MoreInfo URL, tags)
 - **Tool window**: `GitHubInfoToolWindow` creates the ViewModel and manages
   its lifecycle (init, auto-refresh, dispose)
 - **ViewModel**: `GitHubInfoToolWindowViewModel` contains all business logic:
@@ -62,7 +63,9 @@ The built `.vsix` targets VS2026 (internal version `[17.14,)`). It is
   `GithubInfoExtension/bin/Release/net8.0-windows8.0/GithubInfoExtension.vsix`
 - **F5 debugging**: open `GithubInfoExtension.slnx` in VS2026 and press F5
   to launch an experimental instance
-- **Uninstall**: Extensions > Manage Extensions > Uninstall > Restart VS
+- **Menu location**: Extensions > GitHub Info (opens the tool window)
+- **Uninstall**: clear PAT in Tools > Options first, then
+  Extensions > Manage Extensions > Uninstall > Restart VS
 
 ## Key Technologies
 

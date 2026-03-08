@@ -54,7 +54,12 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 3. Double-click `GithubInfoExtension.vsix`
 4. The VSIX Installer launches — select your VS2026 instance and click
    **Install**
-5. Restart VS2026
+
+> **Note:** The VSIX Installer may list VS2022 as an available target, but
+> installation will be blocked because the extension requires VS2026 (17.14+).
+> Only VS2026 instances are valid targets.
+
+1. Restart VS2026
 
 #### Option B: F5 debugging (development)
 
@@ -66,9 +71,11 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 
 ### Uninstalling
 
-1. In VS2026, go to **Extensions > Manage Extensions**
-2. Find **GitHub Info Extension** and click **Uninstall**
-3. Restart VS2026
+1. Clear your PAT in **Tools > Options > GitHub Info Extension** before
+   uninstalling (the extension cannot clear settings automatically)
+2. In VS2026, go to **Extensions > Manage Extensions**
+3. Find **GitHub Info Extension** and click **Uninstall**
+4. Restart VS2026
 
 ### Configuration
 
@@ -77,12 +84,22 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
    repositories and higher rate limits)
 3. Set the **Auto-Refresh Interval** (default: 2 minutes)
 
+> **Note:** After first install, a Visual Studio restart may be needed for the
+> settings page to appear under Tools > Options.
+
+### Usage
+
+Open the tool window via **Extensions > GitHub Info**. When a solution with a
+GitHub remote is loaded, the window displays open issues and pull requests.
+When no solution is open but a PAT is configured, it shows a summary of your
+repositories with open items.
+
 ## Testing
 
 After installing the extension, verify the following:
 
 - [ ] Extension appears in **Extensions > Manage Extensions**
-- [ ] **View > Other Windows > GitHub Info** menu item is present
+- [ ] **Extensions > GitHub Info** menu item is present
 - [ ] Opening a solution with a GitHub remote shows issues and PRs
 - [ ] Closing all solutions updates the tool window within ~3 seconds
 - [ ] PAT configuration in **Tools > Options** works correctly

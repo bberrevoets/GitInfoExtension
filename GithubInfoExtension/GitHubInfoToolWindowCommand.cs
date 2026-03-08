@@ -12,7 +12,7 @@ internal class GitHubInfoToolWindowCommand : Command
 
     public override CommandConfiguration CommandConfiguration => new("%GithubInfoExtension.GitHubInfoToolWindowCommand.DisplayName%")
     {
-        Placements = [CommandPlacement.KnownPlacements.ViewOtherWindowsMenu],
+        Placements = [CommandPlacement.KnownPlacements.ExtensionsMenu],
         Icon = new(ImageMoniker.KnownValues.GitRepository, IconSettings.IconAndText),
     };
 
