@@ -26,27 +26,27 @@ jobs:
       - name: Install nbgv
         run: dotnet tool install -g nbgv
 
-      - name: Set stable version
-        if: github.ref == 'refs/heads/main'
-        run: |
-          $vj = Get-Content version.json -Raw | ConvertFrom-Json
-          $vj.version = $vj.version -replace '-beta$', ''
-          $vj | ConvertTo-Json -Depth 10 | Set-Content version.json
-          echo "Stripped beta suffix: version is now $($vj.version)"
-
       - name: Get version
         id: version
         run: |
-          $ver = nbgv get-version -v NuGetPackageVersion
-          echo "version=$ver" >> $env:GITHUB_OUTPUT
           $semver = nbgv get-version -v SemVer2
-          echo "semver=$semver" >> $env:GITHUB_OUTPUT
+          $simple = nbgv get-version -v SimpleVersion
+          if ("${{ github.ref }}" -eq "refs/heads/main") {
+            $releaseVersion = $simple
+          } else {
+            $releaseVersion = $semver
+          }
+          echo "version=$simple" >> $env:GITHUB_OUTPUT
+          echo "semver=$releaseVersion" >> $env:GITHUB_OUTPUT
+          echo "Release version: $releaseVersion"
 
       - name: Restore
         run: dotnet restore GitInfoExtension/GitInfoExtension.csproj
 
       - name: Build
-        run: dotnet build GitInfoExtension/GitInfoExtension.csproj -c Release --no-restore
+        run: >
+          dotnet build GitInfoExtension/GitInfoExtension.csproj
+          -c Release --no-restore /p:StripPrerelease=true
 
       - name: Create git tag
         run: |
