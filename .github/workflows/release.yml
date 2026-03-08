@@ -31,13 +31,15 @@ jobs:
         run: |
           $semver = nbgv get-version -v SemVer2
           $simple = nbgv get-version -v SimpleVersion
-          if ("${{ github.ref }}" -eq "refs/heads/main") {
+          $isMain = "${{ github.ref }}" -eq "refs/heads/main"
+          if ($isMain) {
             $releaseVersion = $simple
           } else {
             $releaseVersion = $semver
           }
           echo "version=$simple" >> $env:GITHUB_OUTPUT
           echo "semver=$releaseVersion" >> $env:GITHUB_OUTPUT
+          echo "is_main=$($isMain.ToString().ToLower())" >> $env:GITHUB_OUTPUT
           echo "Release version: $releaseVersion"
 
       - name: Restore
@@ -46,7 +48,8 @@ jobs:
       - name: Build
         run: >
           dotnet build GitInfoExtension/GitInfoExtension.csproj
-          -c Release --no-restore /p:StripPrerelease=true
+          -c Release --no-restore
+          /p:StripPrerelease=${{ steps.version.outputs.is_main }}
 
       - name: Create git tag
         run: |

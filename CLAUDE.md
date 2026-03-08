@@ -77,8 +77,9 @@ computation from git history:
 - `Development` builds produce `1.0.X-beta` (pre-release)
 - `main` builds produce `1.0.X` (stable release)
 - Release builds pass `/p:StripPrerelease=true` to strip the beta
-  suffix from `InformationalVersion`, `Version`, and `PackageVersion`
-  via the `StripBetaForRelease` MSBuild target in the `.csproj`
+  suffix from `Version`, `PackageVersion`, `AssemblyVersion`, and
+  `InformationalVersion` via the `StripBetaForRelease` MSBuild target
+  in the `.csproj` (uses `$(MajorMinorVersion).$(GitVersionHeight)`)
 - The release workflow uses nbgv's `SimpleVersion` (3-part, no suffix)
   for tags and GitHub Release names on `main`
 - Bump minor/major by editing the `"version"` field in `version.json`

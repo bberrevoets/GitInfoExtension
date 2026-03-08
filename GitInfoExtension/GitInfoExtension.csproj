@@ -35,9 +35,11 @@
   <Target Name="StripBetaForRelease" AfterTargets="GetBuildVersion"
           Condition="'$(StripPrerelease)' == 'true'">
     <PropertyGroup>
-      <InformationalVersion>$(SimpleVersion)+$(GitCommitIdShort)</InformationalVersion>
-      <Version>$(SimpleVersion)</Version>
-      <PackageVersion>$(SimpleVersion)</PackageVersion>
+      <_StableVersion>$(MajorMinorVersion).$(GitVersionHeight)</_StableVersion>
+      <Version>$(_StableVersion)</Version>
+      <PackageVersion>$(_StableVersion)</PackageVersion>
+      <AssemblyVersion>$(_StableVersion).0</AssemblyVersion>
+      <InformationalVersion>$(_StableVersion)+$(GitCommitIdShort)</InformationalVersion>
     </PropertyGroup>
   </Target>
 
