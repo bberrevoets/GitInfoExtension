@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Installation and testing documentation in README.md with step-by-step
+  instructions for VSIX install, F5 debugging, and uninstalling
+- VS version compatibility note (requires VS2026 / 17.14+, not VS2022)
+- Test checklist covering activation, repo detection, PAT config,
+  auto-refresh, solution monitoring, manual refresh, and UI theming
+- Installation section in CLAUDE.md for development reference
 - GitHub API integration via Octokit.net for fetching issues and pull requests
 - `GitRepositoryDetector` service to parse `.git/config` and detect
   GitHub remote owner/repo
