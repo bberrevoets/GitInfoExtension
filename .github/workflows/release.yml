@@ -57,7 +57,6 @@ jobs:
           echo "VSIX_PUBLISHER=$publisherPath" >> $env:GITHUB_ENV
 
       - name: Publish to VS Marketplace
-        if: secrets.VS_MARKETPLACE_PAT != ''
         run: |
           & $env:VSIX_PUBLISHER publish `
             -payload GitInfoExtension/bin/Release/net8.0-windows8.0/GitInfoExtension.vsix `
