@@ -1,11 +1,11 @@
-namespace GithubInfoExtension.Services;
+namespace GitInfoExtension.Services;
 
-using GithubInfoExtension.Models;
+using GitInfoExtension.Models;
 using Octokit;
 
 internal class GitHubService : IGitHubService
 {
-    public async Task<GitHubItemsResult> GetOpenItemsAsync(
+    public async Task<ItemsResult> GetOpenItemsAsync(
         string owner, string repo, string? personalAccessToken, CancellationToken cancellationToken)
     {
         var client = CreateClient(personalAccessToken);
@@ -19,7 +19,7 @@ internal class GitHubService : IGitHubService
 
         var issues = allItems
             .Where(i => i.PullRequest == null)
-            .Select(i => new GitHubIssueModel
+            .Select(i => new IssueModel
             {
                 DisplayNumber = $"#{i.Number}",
                 Title = i.Title,
@@ -34,7 +34,7 @@ internal class GitHubService : IGitHubService
             .Where(i => i.PullRequest != null)
             .ToDictionary(i => i.Number);
 
-        var pullRequests = new List<GitHubPullRequestModel>();
+        var pullRequests = new List<PullRequestModel>();
 
         if (prItemsByNumber.Count > 0)
         {
@@ -47,7 +47,7 @@ internal class GitHubService : IGitHubService
                     ? string.Join(", ", issueItem.Labels.Select(l => l.Name))
                     : string.Empty;
 
-                pullRequests.Add(new GitHubPullRequestModel
+                pullRequests.Add(new PullRequestModel
                 {
                     DisplayNumber = $"PR #{pr.Number}",
                     Title = pr.Title,
@@ -60,10 +60,10 @@ internal class GitHubService : IGitHubService
             }
         }
 
-        return new GitHubItemsResult(issues, pullRequests);
+        return new ItemsResult(issues, pullRequests);
     }
 
-    public async Task<IReadOnlyList<GitHubRepositorySummaryModel>> GetUserRepositoriesAsync(
+    public async Task<IReadOnlyList<RepositorySummaryModel>> GetUserRepositoriesAsync(
         string personalAccessToken, CancellationToken cancellationToken)
     {
         var client = CreateClient(personalAccessToken);
@@ -77,7 +77,7 @@ internal class GitHubService : IGitHubService
             .OrderByDescending(r => r.UpdatedAt)
             .ToList();
 
-        var results = new List<GitHubRepositorySummaryModel>();
+        var results = new List<RepositorySummaryModel>();
 
         foreach (var repo in filteredRepos)
         {
@@ -94,7 +94,7 @@ internal class GitHubService : IGitHubService
             if (prCount > 0)
                 parts.Add($"{prCount} open PR{(prCount == 1 ? "" : "s")}");
 
-            results.Add(new GitHubRepositorySummaryModel
+            results.Add(new RepositorySummaryModel
             {
                 FullName = repo.FullName,
                 OpenItemsCount = string.Join(", ", parts),
@@ -108,7 +108,7 @@ internal class GitHubService : IGitHubService
 
     private static GitHubClient CreateClient(string? personalAccessToken)
     {
-        var client = new GitHubClient(new ProductHeaderValue("GithubInfoExtension"));
+        var client = new GitHubClient(new ProductHeaderValue("GitInfoExtension"));
 
         if (!string.IsNullOrWhiteSpace(personalAccessToken))
         {

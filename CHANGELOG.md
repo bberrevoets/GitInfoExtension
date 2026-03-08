@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed extension from "GitHub Info" to "Git Info" to prepare for
+  multi-provider support (e.g. Azure DevOps)
+- Renamed project directory `GithubInfoExtension` to `GitInfoExtension`
+- Renamed solution file to `GitInfoExtension.slnx`
+- Renamed model classes: `GitHubIssueModel` to `IssueModel`,
+  `GitHubPullRequestModel` to `PullRequestModel`,
+  `GitHubRepositorySummaryModel` to `RepositorySummaryModel`,
+  `GitHubItemsResult` to `ItemsResult`, `GitHubRepoInfo` to `RepoInfo`
+- Renamed settings class from `GitHubSettings` to `GitInfoSettings`
+- Renamed tool window classes: `GitHubInfoToolWindow` to `GitInfoToolWindow`,
+  `GitHubInfoToolWindowCommand` to `GitInfoToolWindowCommand`,
+  `GitHubInfoToolWindowContent` to `GitInfoToolWindowContent`,
+  `GitHubInfoToolWindowViewModel` to `GitInfoToolWindowViewModel`
+- Updated namespace from `GithubInfoExtension` to `GitInfoExtension`
+- Updated all display names from "GitHub Info" to "Git Info"
+- Settings category ID changed from `githubInfoExtension` to
+  `gitInfoExtension` (users will need to re-enter their PAT after upgrade)
+- Menu location changed to **Extensions > Git Info**
+- Settings location changed to **Tools > Options > Git Info Extension**
+
 ### Added
 
 - Extension icon (`Images/Icon.png`, 128x128) and preview image
@@ -29,33 +51,26 @@ All notable changes to this project will be documented in this file.
   GitHub remote owner/repo
 - `GitHubService` for fetching open issues, pull requests, and user
   repository summaries
-- Data models: `GitHubIssueModel`, `GitHubPullRequestModel`,
-  `GitHubRepoInfo`, `GitHubItemsResult`, `GitHubRepositorySummaryModel`
-- `GitHubInfoToolWindowViewModel` with full data-binding for issues,
+- Data models: `IssueModel`, `PullRequestModel`, `RepoInfo`,
+  `ItemsResult`, `RepositorySummaryModel`
+- `GitInfoToolWindowViewModel` with full data-binding for issues,
   PRs, and repository lists
-- WPF tool window UI (`GitHubInfoToolWindowContent.xaml`) with styled
+- WPF tool window UI (`GitInfoToolWindowContent.xaml`) with styled
   lists for issues, pull requests, and repository summaries
 - Configurable settings (PAT and auto-refresh interval) via
-  Tools > Options > GitHub Info Extension
+  Tools > Options > Git Info Extension
 - Auto-refresh background loop with configurable interval
 - Solution monitor loop (3-second poll) to detect solution open, close,
   and switch events and trigger immediate refresh
 - Concurrency guard (`SemaphoreSlim`) to prevent overlapping data loads
-- DI registration for services in `GithubInfoExtensionEntrypoint`
+- DI registration for services in `GitInfoExtensionEntrypoint`
 - CLAUDE.md with project guidance for Claude Code
 - CHANGELOG.md
 
-### Changed
+### Removed
 
-- Excluded `CLAUDE.md` and `TESTREPORT.md` from version control via
-  `.gitignore` (these files are developer-local only)
-- Moved tool window command from View > Other Windows to Extensions menu
-- Improved no-PAT status message with settings location and restart hint
-- Updated footer hint in tool window XAML with restart note
-- Repository branch structure: `Development` as default branch, `main` as
-  production branch
-- GitHub rulesets to protect `Development` and `main` branches
-- Updated README.md with features, build instructions, and configuration
+- Old `GithubInfoExtension` project directory and namespace (replaced
+  by `GitInfoExtension`)
 
 ## [0.0.1] - 2026-03-07
 

@@ -1,8 +1,8 @@
-namespace GithubInfoExtension.Services;
+namespace GitInfoExtension.Services;
 
 using System.IO;
 using System.Text.RegularExpressions;
-using GithubInfoExtension.Models;
+using GitInfoExtension.Models;
 
 internal class GitRepositoryDetector : IGitRepositoryDetector
 {
@@ -10,7 +10,7 @@ internal class GitRepositoryDetector : IGitRepositoryDetector
         @"github\.com[:/](?<owner>[^/]+)/(?<repo>[^/]+?)(?:\.git)?$",
         RegexOptions.Compiled);
 
-    public GitHubRepoInfo? DetectRepository(string solutionDirectory)
+    public RepoInfo? DetectRepository(string solutionDirectory)
     {
         var gitDir = FindGitDirectory(solutionDirectory);
         if (gitDir == null)
@@ -53,7 +53,7 @@ internal class GitRepositoryDetector : IGitRepositoryDetector
         return null;
     }
 
-    internal static GitHubRepoInfo? ParseGitConfig(string configContent)
+    internal static RepoInfo? ParseGitConfig(string configContent)
     {
         bool inRemoteOrigin = false;
         foreach (var line in configContent.Split('\n'))
@@ -77,7 +77,7 @@ internal class GitRepositoryDetector : IGitRepositoryDetector
                 var match = GitHubUrlRegex.Match(url);
                 if (match.Success)
                 {
-                    return new GitHubRepoInfo(
+                    return new RepoInfo(
                         match.Groups["owner"].Value,
                         match.Groups["repo"].Value);
                 }

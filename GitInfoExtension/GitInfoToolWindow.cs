@@ -1,23 +1,23 @@
-namespace GithubInfoExtension;
+namespace GitInfoExtension;
 
-using GithubInfoExtension.Services;
+using GitInfoExtension.Services;
 using Microsoft.VisualStudio.Extensibility;
 using Microsoft.VisualStudio.Extensibility.ToolWindows;
 using Microsoft.VisualStudio.RpcContracts.RemoteUI;
 
 [VisualStudioContribution]
-internal class GitHubInfoToolWindow : ToolWindow
+internal class GitInfoToolWindow : ToolWindow
 {
-    private readonly GitHubInfoToolWindowViewModel _viewModel;
+    private readonly GitInfoToolWindowViewModel _viewModel;
 
-    public GitHubInfoToolWindow(
+    public GitInfoToolWindow(
         VisualStudioExtensibility extensibility,
         IGitRepositoryDetector repoDetector,
         IGitHubService gitHubService)
         : base(extensibility)
     {
-        Title = "GitHub Info";
-        _viewModel = new GitHubInfoToolWindowViewModel(extensibility, repoDetector, gitHubService);
+        Title = "Git Info";
+        _viewModel = new GitInfoToolWindowViewModel(extensibility, repoDetector, gitHubService);
     }
 
     public override ToolWindowConfiguration ToolWindowConfiguration => new()
@@ -44,6 +44,6 @@ internal class GitHubInfoToolWindow : ToolWindow
 
     public override Task<IRemoteUserControl> GetContentAsync(CancellationToken cancellationToken)
     {
-        return Task.FromResult<IRemoteUserControl>(new GitHubInfoToolWindowContent(_viewModel));
+        return Task.FromResult<IRemoteUserControl>(new GitInfoToolWindowContent(_viewModel));
     }
 }

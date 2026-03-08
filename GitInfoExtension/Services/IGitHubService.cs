@@ -1,12 +1,12 @@
-namespace GithubInfoExtension.Services;
+namespace GitInfoExtension.Services;
 
-using GithubInfoExtension.Models;
+using GitInfoExtension.Models;
 
 internal interface IGitHubService
 {
-    Task<GitHubItemsResult> GetOpenItemsAsync(
+    Task<ItemsResult> GetOpenItemsAsync(
         string owner, string repo, string? personalAccessToken, CancellationToken cancellationToken);
 
-    Task<IReadOnlyList<GitHubRepositorySummaryModel>> GetUserRepositoriesAsync(
+    Task<IReadOnlyList<RepositorySummaryModel>> GetUserRepositoriesAsync(
         string personalAccessToken, CancellationToken cancellationToken);
 }

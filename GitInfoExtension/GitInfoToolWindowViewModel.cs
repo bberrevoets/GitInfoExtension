@@ -1,17 +1,17 @@
-namespace GithubInfoExtension;
+namespace GitInfoExtension;
 
 using System.IO;
 using System.Runtime.Serialization;
-using GithubInfoExtension.Models;
-using GithubInfoExtension.Services;
-using GithubInfoExtension.Settings;
+using GitInfoExtension.Models;
+using GitInfoExtension.Services;
+using GitInfoExtension.Settings;
 using Microsoft.VisualStudio.Extensibility;
 using Microsoft.VisualStudio.Extensibility.Settings;
 using Microsoft.VisualStudio.Extensibility.UI;
 using Microsoft.VisualStudio.ProjectSystem.Query;
 
 [DataContract]
-internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
+internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
 {
     private readonly IGitRepositoryDetector _repoDetector;
     private readonly IGitHubService _gitHubService;
@@ -30,7 +30,7 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
     private string _repoListVisibility = "Collapsed";
     private string _repoDetailVisibility = "Visible";
 
-    public GitHubInfoToolWindowViewModel(
+    public GitInfoToolWindowViewModel(
         VisualStudioExtensibility extensibility,
         IGitRepositoryDetector repoDetector,
         IGitHubService gitHubService)
@@ -42,13 +42,13 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
     }
 
     [DataMember]
-    public ObservableList<GitHubIssueModel> Issues { get; } = new();
+    public ObservableList<IssueModel> Issues { get; } = new();
 
     [DataMember]
-    public ObservableList<GitHubPullRequestModel> PullRequests { get; } = new();
+    public ObservableList<PullRequestModel> PullRequests { get; } = new();
 
     [DataMember]
-    public ObservableList<GitHubRepositorySummaryModel> Repositories { get; } = new();
+    public ObservableList<RepositorySummaryModel> Repositories { get; } = new();
 
     [DataMember]
     public string StatusMessage
@@ -139,7 +139,7 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
                 RepoListVisibility = "Collapsed";
                 RepoDetailVisibility = "Collapsed";
                 StatusMessage = "No solution is open. Configure a PAT in Tools > Options "
-                    + "> GitHub Info Extension to see your repositories. A VS restart "
+                    + "> Git Info Extension to see your repositories. A VS restart "
                     + "may be needed after first install for settings to appear.";
                 RepositoryName = string.Empty;
             }
@@ -260,7 +260,7 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
         try
         {
             var patResult = await _extensibility.Settings().ReadEffectiveValueAsync(
-                GitHubSettings.PersonalAccessToken, cancellationToken);
+                GitInfoSettings.PersonalAccessToken, cancellationToken);
             var pat = patResult.Value;
             return string.IsNullOrWhiteSpace(pat) ? null : pat;
         }
@@ -343,7 +343,7 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
         try
         {
             var result = await _extensibility.Settings().ReadEffectiveValueAsync(
-                GitHubSettings.RefreshInterval, cancellationToken);
+                GitInfoSettings.RefreshInterval, cancellationToken);
             return int.TryParse(result.Value, out var seconds) ? seconds : 120;
         }
         catch

@@ -1,10 +1,10 @@
-namespace GithubInfoExtension.Models;
+namespace GitInfoExtension.Models;
 
 using System.Runtime.Serialization;
 using Microsoft.VisualStudio.Extensibility.UI;
 
 [DataContract]
-internal class GitHubRepositorySummaryModel : NotifyPropertyChangedObject
+internal class RepositorySummaryModel : NotifyPropertyChangedObject
 {
     private string _fullName = string.Empty;
     private string _openItemsCount = string.Empty;

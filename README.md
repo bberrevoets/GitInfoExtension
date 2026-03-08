@@ -1,7 +1,7 @@
-# GithubInfoExtension
+# GitInfoExtension
 
-A Visual Studio 2026 extension that displays open GitHub issues and pull
-requests when the solution is connected to a GitHub repository.
+A Visual Studio 2026 extension that displays open issues and pull requests
+for repositories connected to git hosting services (currently GitHub).
 
 ## Overview
 
@@ -34,17 +34,17 @@ This extension integrates with the GitHub API to provide an in-IDE view of:
 - Visual Studio 2026 Preview or later (internal version 17.14+)
 - .NET 8.0 SDK
 
-> **Note:** Visual Studio 2022 (17.0–17.12) is **not compatible** — the
+> **Note:** Visual Studio 2022 (17.0--17.12) is **not compatible** -- the
 > extension targets `[17.14,)` via the VS Extensibility SDK.
 
 ### Build
 
 ```bash
 # Debug build
-dotnet build GithubInfoExtension/GithubInfoExtension.csproj
+dotnet build GitInfoExtension/GitInfoExtension.csproj
 
 # Release build (recommended for installation)
-dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
+dotnet build GitInfoExtension/GitInfoExtension.csproj -c Release
 ```
 
 ### Installation
@@ -52,9 +52,9 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 #### Option A: Double-click the VSIX (simplest)
 
 1. Build in Release mode (see above)
-2. Navigate to `GithubInfoExtension\bin\Release\net8.0-windows8.0\`
-3. Double-click `GithubInfoExtension.vsix`
-4. The VSIX Installer launches — select your VS2026 instance and click
+2. Navigate to `GitInfoExtension\bin\Release\net8.0-windows8.0\`
+3. Double-click `GitInfoExtension.vsix`
+4. The VSIX Installer launches -- select your VS2026 instance and click
    **Install**
 
 > **Note:** The VSIX Installer may list VS2022 as an available target, but
@@ -65,23 +65,23 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 
 #### Option B: F5 debugging (development)
 
-1. Open `GithubInfoExtension.slnx` in VS2026
-2. Set the `GithubInfoExtension` project as the startup project
-3. Press **F5** — VS launches an experimental instance with the extension
+1. Open `GitInfoExtension.slnx` in VS2026
+2. Set the `GitInfoExtension` project as the startup project
+3. Press **F5** -- VS launches an experimental instance with the extension
    loaded (no permanent install needed)
 4. The extension is active only in the experimental instance
 
 ### Uninstalling
 
-1. Clear your PAT in **Tools > Options > GitHub Info Extension** before
+1. Clear your PAT in **Tools > Options > Git Info Extension** before
    uninstalling (the extension cannot clear settings automatically)
 2. In VS2026, go to **Extensions > Manage Extensions**
-3. Find **GitHub Info Extension** and click **Uninstall**
+3. Find **Git Info Extension** and click **Uninstall**
 4. Restart VS2026
 
 ### Configuration
 
-1. Open **Tools > Options > GitHub Info Extension**
+1. Open **Tools > Options > Git Info Extension**
 2. Enter your **GitHub Personal Access Token** (required for private
    repositories and higher rate limits)
 3. Set the **Auto-Refresh Interval** (default: 2 minutes)
@@ -91,7 +91,7 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 
 ### Usage
 
-Open the tool window via **Extensions > GitHub Info**. When a solution with a
+Open the tool window via **Extensions > Git Info**. When a solution with a
 GitHub remote is loaded, the window displays open issues and pull requests.
 When no solution is open but a PAT is configured, it shows a summary of your
 repositories with open items.
@@ -101,7 +101,7 @@ repositories with open items.
 After installing the extension, verify the following:
 
 - [ ] Extension appears in **Extensions > Manage Extensions**
-- [ ] **Extensions > GitHub Info** menu item is present
+- [ ] **Extensions > Git Info** menu item is present
 - [ ] Opening a solution with a GitHub remote shows issues and PRs
 - [ ] Closing all solutions updates the tool window within ~3 seconds
 - [ ] PAT configuration in **Tools > Options** works correctly
