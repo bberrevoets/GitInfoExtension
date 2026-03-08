@@ -138,7 +138,9 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
             {
                 RepoListVisibility = "Collapsed";
                 RepoDetailVisibility = "Collapsed";
-                StatusMessage = "No solution is open. Configure a PAT to see your repositories.";
+                StatusMessage = "No solution is open. Configure a PAT in Tools > Options "
+                    + "> GitHub Info Extension to see your repositories. A VS restart "
+                    + "may be needed after first install for settings to appear.";
                 RepositoryName = string.Empty;
             }
         }

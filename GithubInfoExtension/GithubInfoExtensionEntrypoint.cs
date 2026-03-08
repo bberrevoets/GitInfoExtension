@@ -13,7 +13,30 @@ internal class GithubInfoExtensionEntrypoint : Extension
             version: ExtensionAssemblyVersion,
             publisherName: "Berrevoets Systems",
             displayName: "GitHub Info Extension",
-            description: "Displays open GitHub issues and pull requests for the current repository.")
+            description: "View open GitHub issues and pull requests for the "
+                + "currently loaded repository directly inside Visual Studio."
+                + "<br/><br/>"
+                + "<b>Features</b>"
+                + "<ul>"
+                + "<li>Automatic GitHub repository detection from .git/config</li>"
+                + "<li>Open issues and pull requests with labels, authors, "
+                + "and branch info</li>"
+                + "<li>Repository overview when no solution is open</li>"
+                + "<li>Configurable auto-refresh interval</li>"
+                + "<li>Automatic solution switch detection</li>"
+                + "</ul>"
+                + "<b>Getting started</b>"
+                + "<ol>"
+                + "<li>Open <b>Extensions &gt; GitHub Info</b></li>"
+                + "<li>Configure your Personal Access Token in "
+                + "<b>Tools &gt; Options &gt; GitHub Info Extension</b></li>"
+                + "</ol>"
+                + "<br/>"
+                + "<em>Developed by Bert Berrevoets &mdash; Berrevoets Systems</em>")
+        {
+            MoreInfo = "https://github.com/bberrevoets/GithubInfoExtension",
+            Tags = ["GitHub", "Git", "Issues", "Pull Requests", "Repository"],
+        },
     };
 
     protected override void InitializeServices(IServiceCollection serviceCollection)

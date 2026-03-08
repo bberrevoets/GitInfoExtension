@@ -169,7 +169,7 @@
 
         <!-- Footer hint -->
         <TextBlock Grid.Row="2"
-                   Text="Configure PAT in Tools &gt; Options &gt; GitHub Info Extension"
+                   Text="Configure PAT in Tools &gt; Options &gt; GitHub Info Extension. Restart VS after first install if settings are missing."
                    FontSize="11"
                    FontStyle="Italic"
                    Foreground="{DynamicResource {x:Static styles:VsBrushes.GrayTextKey}}"
