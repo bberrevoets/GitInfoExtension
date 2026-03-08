@@ -29,14 +29,46 @@ This extension integrates with the GitHub API to provide an in-IDE view of:
 
 ### Prerequisites
 
-- Visual Studio 2026 Preview or later
+- Visual Studio 2026 Preview or later (internal version 17.14+)
 - .NET 8.0 SDK
+
+> **Note:** Visual Studio 2022 (17.0–17.12) is **not compatible** — the
+> extension targets `[17.14,)` via the VS Extensibility SDK.
 
 ### Build
 
 ```bash
+# Debug build
 dotnet build GithubInfoExtension/GithubInfoExtension.csproj
+
+# Release build (recommended for installation)
+dotnet build GithubInfoExtension/GithubInfoExtension.csproj -c Release
 ```
+
+### Installation
+
+#### Option A: Double-click the VSIX (simplest)
+
+1. Build in Release mode (see above)
+2. Navigate to `GithubInfoExtension\bin\Release\net8.0-windows8.0\`
+3. Double-click `GithubInfoExtension.vsix`
+4. The VSIX Installer launches — select your VS2026 instance and click
+   **Install**
+5. Restart VS2026
+
+#### Option B: F5 debugging (development)
+
+1. Open `GithubInfoExtension.slnx` in VS2026
+2. Set the `GithubInfoExtension` project as the startup project
+3. Press **F5** — VS launches an experimental instance with the extension
+   loaded (no permanent install needed)
+4. The extension is active only in the experimental instance
+
+### Uninstalling
+
+1. In VS2026, go to **Extensions > Manage Extensions**
+2. Find **GitHub Info Extension** and click **Uninstall**
+3. Restart VS2026
 
 ### Configuration
 
@@ -44,6 +76,20 @@ dotnet build GithubInfoExtension/GithubInfoExtension.csproj
 2. Enter your **GitHub Personal Access Token** (required for private
    repositories and higher rate limits)
 3. Set the **Auto-Refresh Interval** (default: 2 minutes)
+
+## Testing
+
+After installing the extension, verify the following:
+
+- [ ] Extension appears in **Extensions > Manage Extensions**
+- [ ] **View > Other Windows > GitHub Info** menu item is present
+- [ ] Opening a solution with a GitHub remote shows issues and PRs
+- [ ] Closing all solutions updates the tool window within ~3 seconds
+- [ ] PAT configuration in **Tools > Options** works correctly
+- [ ] Auto-refresh fires at the configured interval
+- [ ] Solution switch detection updates the displayed repository
+- [ ] Manual **Refresh** button reloads data immediately
+- [ ] UI respects the current VS theme (dark/light/blue)
 
 ## Technologies
 

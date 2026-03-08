@@ -53,6 +53,17 @@ The extension follows the VS2026 out-of-process extensibility model:
 | `Services/` | `GitRepositoryDetector` (parses `.git/config`), `GitHubService` (Octokit wrapper) |
 | `Settings/` | VS extensibility settings definition |
 
+## Installation
+
+The built `.vsix` targets VS2026 (internal version `[17.14,)`). It is
+**not compatible** with VS2022.
+
+- **VSIX install**: double-click
+  `GithubInfoExtension/bin/Release/net8.0-windows8.0/GithubInfoExtension.vsix`
+- **F5 debugging**: open `GithubInfoExtension.slnx` in VS2026 and press F5
+  to launch an experimental instance
+- **Uninstall**: Extensions > Manage Extensions > Uninstall > Restart VS
+
 ## Key Technologies
 
 - VS2026 Extensibility SDK (`Microsoft.VisualStudio.Extensibility.Sdk` 17.14)
