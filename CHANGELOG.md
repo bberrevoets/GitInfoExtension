@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Extension icon (`Images/Icon.png`, 128x128) and preview image
+  (`Images/PreviewImage.png`, 200x200) displayed in the VS2026
+  Extensions Manager
+- Icon and PreviewImage metadata references in extension entrypoint
 - HTML-formatted extension description with features, getting started
   steps, and author credit in Extensions Manager
 - `MoreInfo` URL and search tags in extension metadata
@@ -43,6 +47,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Excluded `CLAUDE.md` and `TESTREPORT.md` from version control via
+  `.gitignore` (these files are developer-local only)
 - Moved tool window command from View > Other Windows to Extensions menu
 - Improved no-PAT status message with settings location and restart hint
 - Updated footer hint in tool window XAML with restart note
