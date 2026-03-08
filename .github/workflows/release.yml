@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install nbgv
+        run: dotnet tool install -g nbgv
+
+      - name: Get version
+        id: version
+        run: |
+          $ver = nbgv get-version -v NuGetPackageVersion
+          echo "version=$ver" >> $env:GITHUB_OUTPUT
+          $semver = nbgv get-version -v SemVer2
+          echo "semver=$semver" >> $env:GITHUB_OUTPUT
+
+      - name: Restore
+        run: dotnet restore GitInfoExtension/GitInfoExtension.csproj
+
+      - name: Build
+        run: dotnet build GitInfoExtension/GitInfoExtension.csproj -c Release --no-restore
+
+      - name: Create git tag
+        run: |
+          git tag "v${{ steps.version.outputs.semver }}"
+          git push origin "v${{ steps.version.outputs.semver }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.semver }}
+          name: v${{ steps.version.outputs.semver }}
+          generate_release_notes: true
+          files: GitInfoExtension/bin/Release/net8.0-windows8.0/GitInfoExtension.vsix
+
+      - name: Install VsixPublisher
+        run: |
+          nuget install Microsoft.VSSDK.BuildTools -Version 17.14.40420 -OutputDirectory vssdktools
+          $publisherPath = (Get-ChildItem -Path vssdktools -Recurse -Filter VsixPublisher.exe | Select-Object -First 1).FullName
+          echo "VSIX_PUBLISHER=$publisherPath" >> $env:GITHUB_ENV
+
+      - name: Publish to VS Marketplace
+        if: secrets.VS_MARKETPLACE_PAT != ''
+        run: |
+          & $env:VSIX_PUBLISHER publish `
+            -payload GitInfoExtension/bin/Release/net8.0-windows8.0/GitInfoExtension.vsix `
+            -publishManifest publishManifest.json `
+            -personalAccessToken ${{ secrets.VS_MARKETPLACE_PAT }}

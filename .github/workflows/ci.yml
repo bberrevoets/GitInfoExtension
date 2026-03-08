@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [Development]
+  pull_request:
+    branches: [Development]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install nbgv
+        run: dotnet tool install -g nbgv
+
+      - name: Show version
+        run: nbgv get-version
+
+      - name: Restore
+        run: dotnet restore GitInfoExtension/GitInfoExtension.csproj
+
+      - name: Build
+        run: dotnet build GitInfoExtension/GitInfoExtension.csproj -c Release --no-restore
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GitInfoExtension-vsix
+          path: GitInfoExtension/bin/Release/net8.0-windows8.0/GitInfoExtension.vsix

@@ -110,9 +110,31 @@ After installing the extension, verify the following:
 - [ ] Manual **Refresh** button reloads data immediately
 - [ ] UI respects the current VS theme (dark/light/blue)
 
+## Versioning
+
+This project uses [Nerdbank.GitVersioning](https://github.com/dotnet/Nerdbank.GitVersioning)
+for automatic version computation from git history. No manual version bumps
+are needed for patch releases.
+
+- **Development** builds: `1.0.X-beta` (pre-release)
+- **main** builds: `1.0.X` (stable)
+- To bump minor/major: edit `"version"` in `version.json`
+
+## CI/CD
+
+| Workflow | Trigger | What it does |
+| --- | --- | --- |
+| **CI** (`ci.yml`) | Push/PR to `Development` | Build + upload VSIX artifact |
+| **Release** (`release.yml`) | Push to `main` or manual | Build, git tag, GitHub Release, VS Marketplace publish |
+
+The release workflow publishes to the
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/) using the
+`VS_MARKETPLACE_PAT` secret (Azure DevOps PAT with Marketplace > Manage scope).
+
 ## Technologies
 
 - Visual Studio 2026 Extensibility SDK (`VisualStudio.Extensibility`)
+- Nerdbank.GitVersioning (automatic version computation)
 - GitHub API client (Octokit.net 13.x)
 - C# / .NET 8.0
 

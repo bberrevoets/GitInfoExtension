@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": ["Other"],
+  "identity": {
+    "internalName": "GitInfoExtension"
+  },
+  "overview": "README.md",
+  "priceCategory": "free",
+  "publisher": "BerrevoetsSystems",
+  "qna": true,
+  "repo": "https://github.com/bberrevoets/GitInfoExtension"
+}
