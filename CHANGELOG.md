@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- TESTREPORT.md with initial testing results and feedback
 - Installation and testing documentation in README.md with step-by-step
   instructions for VSIX install, F5 debugging, and uninstalling
 - VS version compatibility note (requires VS2026 / 17.14+, not VS2022)
