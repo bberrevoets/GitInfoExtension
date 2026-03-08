@@ -1,24 +1,24 @@
-namespace GithubInfoExtension;
+namespace GitInfoExtension;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.Extensibility;
 
 [VisualStudioContribution]
-internal class GithubInfoExtensionEntrypoint : Extension
+internal class GitInfoExtensionEntrypoint : Extension
 {
     public override ExtensionConfiguration ExtensionConfiguration => new()
     {
         Metadata = new(
-            id: "GithubInfoExtension.a1f3b2c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+            id: "GitInfoExtension.a1f3b2c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
             version: ExtensionAssemblyVersion,
             publisherName: "Berrevoets Systems",
-            displayName: "GitHub Info Extension",
-            description: "View open GitHub issues and pull requests for the "
+            displayName: "Git Info Extension",
+            description: "View open issues and pull requests for the "
                 + "currently loaded repository directly inside Visual Studio."
                 + "<br/><br/>"
                 + "<b>Features</b>"
                 + "<ul>"
-                + "<li>Automatic GitHub repository detection from .git/config</li>"
+                + "<li>Automatic repository detection from .git/config</li>"
                 + "<li>Open issues and pull requests with labels, authors, "
                 + "and branch info</li>"
                 + "<li>Repository overview when no solution is open</li>"
@@ -27,9 +27,9 @@ internal class GithubInfoExtensionEntrypoint : Extension
                 + "</ul>"
                 + "<b>Getting started</b>"
                 + "<ol>"
-                + "<li>Open <b>Extensions &gt; GitHub Info</b></li>"
+                + "<li>Open <b>Extensions &gt; Git Info</b></li>"
                 + "<li>Configure your Personal Access Token in "
-                + "<b>Tools &gt; Options &gt; GitHub Info Extension</b></li>"
+                + "<b>Tools &gt; Options &gt; Git Info Extension</b></li>"
                 + "</ol>"
                 + "<br/>"
                 + "<em>Developed by Bert Berrevoets &mdash; Berrevoets Systems</em>")

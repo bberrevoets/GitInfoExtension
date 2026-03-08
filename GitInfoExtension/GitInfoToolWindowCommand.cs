@@ -1,16 +1,16 @@
-namespace GithubInfoExtension;
+namespace GitInfoExtension;
 
 using Microsoft.VisualStudio.Extensibility;
 using Microsoft.VisualStudio.Extensibility.Commands;
 
 [VisualStudioContribution]
-internal class GitHubInfoToolWindowCommand : Command
+internal class GitInfoToolWindowCommand : Command
 {
-    public GitHubInfoToolWindowCommand()
+    public GitInfoToolWindowCommand()
     {
     }
 
-    public override CommandConfiguration CommandConfiguration => new("%GithubInfoExtension.GitHubInfoToolWindowCommand.DisplayName%")
+    public override CommandConfiguration CommandConfiguration => new("%GitInfoExtension.GitInfoToolWindowCommand.DisplayName%")
     {
         Placements = [CommandPlacement.KnownPlacements.ExtensionsMenu],
         Icon = new(ImageMoniker.KnownValues.GitRepository, IconSettings.IconAndText),
@@ -18,6 +18,6 @@ internal class GitHubInfoToolWindowCommand : Command
 
     public override async Task ExecuteCommandAsync(IClientContext context, CancellationToken cancellationToken)
     {
-        await Extensibility.Shell().ShowToolWindowAsync<GitHubInfoToolWindow>(activate: true, cancellationToken);
+        await Extensibility.Shell().ShowToolWindowAsync<GitInfoToolWindow>(activate: true, cancellationToken);
     }
 }

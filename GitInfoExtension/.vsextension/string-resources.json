@@ -1,0 +1,15 @@
+{
+  "GitInfoExtension.GitInfoToolWindowCommand.DisplayName": "Git Info",
+  "GitInfoSettings.CategoryTitle": "Git Info Extension",
+  "GitInfoSettings.CategoryDescription": "Settings for Git Info Extension",
+  "GitInfoSettings.PatTitle": "Personal Access Token",
+  "GitInfoSettings.PatDescription": "GitHub Personal Access Token for authenticated API access. Required for private repos and higher rate limits.",
+  "GitInfoSettings.RefreshIntervalTitle": "Auto-Refresh Interval",
+  "GitInfoSettings.RefreshIntervalDescription": "How often the tool window automatically refreshes data from the provider.",
+  "GitInfoSettings.RefreshInterval.Disabled": "Disabled",
+  "GitInfoSettings.RefreshInterval.1Min": "1 minute",
+  "GitInfoSettings.RefreshInterval.2Min": "2 minutes",
+  "GitInfoSettings.RefreshInterval.5Min": "5 minutes",
+  "GitInfoSettings.RefreshInterval.10Min": "10 minutes",
+  "GitInfoSettings.RefreshInterval.30Min": "30 minutes"
+}

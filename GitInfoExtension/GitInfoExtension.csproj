@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);VSEXTPREVIEW_SETTINGS</NoWarn>
-    <RootNamespace>GithubInfoExtension</RootNamespace>
+    <RootNamespace>GitInfoExtension</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="GitHubInfoToolWindowContent.xaml" LogicalName="GithubInfoExtension.GitHubInfoToolWindowContent.xaml" />
+    <EmbeddedResource Include="GitInfoToolWindowContent.xaml" LogicalName="GitInfoExtension.GitInfoToolWindowContent.xaml" />
   </ItemGroup>
 
   <ItemGroup>

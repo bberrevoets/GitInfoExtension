@@ -1,10 +1,10 @@
-namespace GithubInfoExtension.Models;
+namespace GitInfoExtension.Models;
 
 using System.Runtime.Serialization;
 using Microsoft.VisualStudio.Extensibility.UI;
 
 [DataContract]
-internal class GitHubIssueModel : NotifyPropertyChangedObject
+internal class IssueModel : NotifyPropertyChangedObject
 {
     private string _displayNumber = string.Empty;
     private string _title = string.Empty;
