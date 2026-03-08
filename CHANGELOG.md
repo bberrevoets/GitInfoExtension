@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file.
   state, not the working tree. Replaced with `SimpleVersion`-based
   release naming and a `StripBetaForRelease` MSBuild target activated
   by `/p:StripPrerelease=true`.
+- Fix `StripBetaForRelease` build failure (`AssemblyVersion` empty):
+  replaced `$(SimpleVersion)` (not available as MSBuild property) with
+  `$(MajorMinorVersion).$(GitVersionHeight)` and explicitly set
+  `AssemblyVersion` to prevent .NET SDK `GenerateDepsFile` error.
 
 ## [1.0.0] - 2026-03-08
 
