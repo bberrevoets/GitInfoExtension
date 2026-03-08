@@ -19,5 +19,7 @@ internal class GithubInfoExtensionEntrypoint : Extension
     protected override void InitializeServices(IServiceCollection serviceCollection)
     {
         base.InitializeServices(serviceCollection);
+        serviceCollection.AddSingleton<Services.IGitRepositoryDetector, Services.GitRepositoryDetector>();
+        serviceCollection.AddSingleton<Services.IGitHubService, Services.GitHubService>();
     }
 }
