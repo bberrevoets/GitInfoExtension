@@ -58,10 +58,15 @@ jobs:
           generate_release_notes: true
           files: GitInfoExtension/bin/Release/net8.0-windows8.0/GitInfoExtension.vsix
 
-      - name: Install VsixPublisher
+      - name: Find VsixPublisher
         run: |
-          nuget install Microsoft.VSSDK.BuildTools -Version 17.14.2120 -OutputDirectory vssdktools
-          $publisherPath = (Get-ChildItem -Path vssdktools -Recurse -Filter VsixPublisher.exe | Select-Object -First 1).FullName
+          $publisherPath = Get-ChildItem -Path "${env:ProgramFiles}\Microsoft Visual Studio" `
+            -Recurse -Filter VsixPublisher.exe -ErrorAction SilentlyContinue |
+            Select-Object -First 1 -ExpandProperty FullName
+          if (-not $publisherPath) {
+            throw "VsixPublisher.exe not found on runner"
+          }
+          echo "Found VsixPublisher at: $publisherPath"
           echo "VSIX_PUBLISHER=$publisherPath" >> $env:GITHUB_ENV
 
       - name: Publish to VS Marketplace
