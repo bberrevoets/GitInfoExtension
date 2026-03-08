@@ -42,8 +42,13 @@ jobs:
 
       - name: Create git tag
         run: |
-          git tag "v${{ steps.version.outputs.semver }}"
-          git push origin "v${{ steps.version.outputs.semver }}"
+          $tag = "v${{ steps.version.outputs.semver }}"
+          if (git tag -l $tag) {
+            echo "Tag $tag already exists, skipping"
+          } else {
+            git tag $tag
+            git push origin $tag
+          }
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -55,7 +60,7 @@ jobs:
 
       - name: Install VsixPublisher
         run: |
-          nuget install Microsoft.VSSDK.BuildTools -Version 17.14.40420 -OutputDirectory vssdktools
+          nuget install Microsoft.VSSDK.BuildTools -Version 17.14.2120 -OutputDirectory vssdktools
           $publisherPath = (Get-ChildItem -Path vssdktools -Recurse -Filter VsixPublisher.exe | Select-Object -First 1).FullName
           echo "VSIX_PUBLISHER=$publisherPath" >> $env:GITHUB_ENV
 
