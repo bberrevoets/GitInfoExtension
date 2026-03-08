@@ -297,7 +297,9 @@ internal class GitHubInfoToolWindowViewModel : NotifyPropertyChangedObject
                 if (!string.Equals(currentPath, _lastKnownSolutionPath,
                         StringComparison.OrdinalIgnoreCase))
                 {
-                    _lastKnownSolutionPath = currentPath;
+                    // Don't update _lastKnownSolutionPath here; LoadDataAsync
+                    // sets it after acquiring the semaphore. If the semaphore
+                    // is held, the path stays stale so the next tick retries.
                     await LoadDataAsync(cancellationToken);
                 }
             }
