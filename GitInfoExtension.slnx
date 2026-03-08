@@ -4,5 +4,8 @@
     <File Path="CLAUDE.md" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="MARKETPLACE.md" />
+  </Folder>
   <Project Path="GitInfoExtension/GitInfoExtension.csproj" />
 </Solution>
