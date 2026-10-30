@@ -116,7 +116,7 @@ This project uses [Nerdbank.GitVersioning](https://github.com/dotnet/Nerdbank.Gi
 for automatic version computation from git history. No manual version bumps
 are needed for patch releases.
 
-- **Development** builds: `1.0.X-beta` (pre-release)
+- Pull request builds: `1.0.X-beta` (pre-release)
 - **main** builds: `1.0.X` (stable)
 - To bump minor/major: edit `"version"` in `version.json`
 
@@ -124,7 +124,7 @@ are needed for patch releases.
 
 | Workflow | Trigger | What it does |
 | --- | --- | --- |
-| **CI** (`ci.yml`) | Push/PR to `Development` | Build + upload VSIX artifact |
+| **CI** (`ci.yml`) | Push/PR to `main` | Build + upload VSIX artifact |
 | **Release** (`release.yml`) | Push to `main` or manual | Build, git tag, GitHub Release, VS Marketplace publish |
 
 The release workflow publishes to the
@@ -148,10 +148,29 @@ development.
 
 ## Branch Structure
 
-- `Development` -- default branch for active development
-- `main` -- production branch
+- `main` -- the only long-lived branch (GitHub Flow). **Every merge to `main` publishes a new version to the VS
+  Marketplace.** The former `Development` branch was retired on 2026-10-30.
+
+## License
+
+[MIT](LICENSE) -- Copyright (c) 2026 Bert Berrevoets, Berrevoets Systems.
 
 ## Author
 
 Bert Berrevoets -- Berrevoets Systems
 <bert@berrevoets.net>
+
+## Conventions
+
+- **Branching:** GitHub Flow. `main` is protected and accepts changes only through pull requests.
+- **Markdown:** linted with `markdownlint-cli2`, 180 character limit.
+
+  ```sh
+  npx markdownlint-cli2 "**/*.md"
+  ```
+
+- **Binaries:** tracked with Git LFS; the covered types and any deliberate exceptions are listed in
+  [AGENTS.md](AGENTS.md). Run `git lfs install` once per machine before cloning; in a clone made without it, run
+  `git lfs install` and then `git lfs pull` to download the files.
+- **Agent instructions:** in [AGENTS.md](AGENTS.md), read by Claude Code, Codex and any other coding agent.
+  `CLAUDE.md` only imports it, so edit `AGENTS.md`.

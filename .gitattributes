@@ -1,0 +1,19 @@
+# >>> repo-init >>>
+# Binaries in Git LFS
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.step filter=lfs diff=lfs merge=lfs -text
+*.stp filter=lfs diff=lfs merge=lfs -text
+*.stl filter=lfs diff=lfs merge=lfs -text
+*.3mf filter=lfs diff=lfs merge=lfs -text
+*.f3d filter=lfs diff=lfs merge=lfs -text
+*.f3z filter=lfs diff=lfs merge=lfs -text
+# <<< repo-init <<<
+
+# The Marketplace icon and preview stay plain git blobs on purpose: they are packed into the VSIX, and the
+# workflows' actions/checkout does not fetch LFS files (see AGENTS.md, Conventions)
+GitInfoExtension/Images/Icon.png !filter !diff !merge
+GitInfoExtension/Images/PreviewImage.png !filter !diff !merge
