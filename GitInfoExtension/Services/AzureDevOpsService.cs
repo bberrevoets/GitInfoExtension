@@ -43,8 +43,8 @@ internal class AzureDevOpsService : IAzureDevOpsService
         HttpClient client, string organization, string project,
         string repositoryName, CancellationToken ct)
     {
-        var url = $"https://dev.azure.com/{organization}/{project}"
-            + $"/_apis/git/repositories/{repositoryName}"
+        var url = $"https://dev.azure.com/{PathSegment(organization)}/{PathSegment(project)}"
+            + $"/_apis/git/repositories/{PathSegment(repositoryName)}"
             + "/pullrequests?searchCriteria.status=active&api-version=7.1";
 
         var response = await client.GetAsync(url, ct);
@@ -58,8 +58,8 @@ internal class AzureDevOpsService : IAzureDevOpsService
         {
             foreach (var pr in result.Value)
             {
-                var prUrl = $"https://dev.azure.com/{organization}/{project}"
-                    + $"/_git/{repositoryName}/pullrequest/{pr.PullRequestId}";
+                var prUrl = $"https://dev.azure.com/{PathSegment(organization)}/{PathSegment(project)}"
+                    + $"/_git/{PathSegment(repositoryName)}/pullrequest/{pr.PullRequestId}";
 
                 pullRequests.Add(new PullRequestModel
                 {
@@ -89,23 +89,23 @@ internal class AzureDevOpsService : IAzureDevOpsService
         var states = string.IsNullOrWhiteSpace(statesFilter)
             ? "'New','Active','Resolved'"
             : string.Join(",", statesFilter.Split(',')
-                .Select(s => $"'{s.Trim()}'"));
+                .Select(s => $"'{Wiql(s.Trim())}'"));
 
         var wiql = $"SELECT [System.Id] FROM WorkItems"
-            + $" WHERE [System.TeamProject] = '{workItemProject}'"
+            + $" WHERE [System.TeamProject] = '{Wiql(workItemProject)}'"
             + $" AND [System.State] IN ({states})"
-            + $" AND [System.Tags] CONTAINS '{tagFilter}'";
+            + $" AND [System.Tags] CONTAINS '{Wiql(tagFilter)}'";
 
         if (!string.IsNullOrWhiteSpace(assignedToFilter))
         {
             wiql += assignedToFilter.Trim().Equals("@me", StringComparison.OrdinalIgnoreCase)
                 ? " AND [System.AssignedTo] = @Me"
-                : $" AND [System.AssignedTo] = '{assignedToFilter.Trim()}'";
+                : $" AND [System.AssignedTo] = '{Wiql(assignedToFilter.Trim())}'";
         }
 
         wiql += " ORDER BY [System.ChangedDate] DESC";
 
-        var wiqlUrl = $"https://dev.azure.com/{organization}/{workItemProject}"
+        var wiqlUrl = $"https://dev.azure.com/{PathSegment(organization)}/{PathSegment(workItemProject)}"
             + "/_apis/wit/wiql?api-version=7.1";
 
         var wiqlBody = JsonSerializer.Serialize(new { query = wiql });
@@ -127,7 +127,7 @@ internal class AzureDevOpsService : IAzureDevOpsService
         {
             var batch = workItemIds.Skip(i).Take(batchSize);
             var ids = string.Join(",", batch);
-            var detailUrl = $"https://dev.azure.com/{organization}/{workItemProject}"
+            var detailUrl = $"https://dev.azure.com/{PathSegment(organization)}/{PathSegment(workItemProject)}"
                 + $"/_apis/wit/workitems?ids={ids}&$expand=relations&api-version=7.1";
 
             var detailResponse = await client.GetAsync(detailUrl, ct);
@@ -142,7 +142,7 @@ internal class AzureDevOpsService : IAzureDevOpsService
                 foreach (var wi in detailResult.Value)
                 {
                     var fields = wi.Fields;
-                    var itemUrl = $"https://dev.azure.com/{organization}/{workItemProject}"
+                    var itemUrl = $"https://dev.azure.com/{PathSegment(organization)}/{PathSegment(workItemProject)}"
                         + $"/_workitems/edit/{wi.Id}";
 
                     issues.Add(new IssueModel
@@ -160,6 +160,12 @@ internal class AzureDevOpsService : IAzureDevOpsService
 
         return issues;
     }
+
+    // Organization, project and repository are logical names ("My Project"): encode them as URL path segments.
+    private static string PathSegment(string segment) => Uri.EscapeDataString(segment);
+
+    // WIQL string literals are single-quoted; a quote inside a value is written twice.
+    private static string Wiql(string value) => value.Replace("'", "''");
 
     private HttpClient GetOrCreateClient(string organization, string pat)
     {
