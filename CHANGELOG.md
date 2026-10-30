@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 Author: *Bert Berrevoets*
 
 - MIT licence ([LICENSE](LICENSE))
+- Azure DevOps support (PR #33): repositories on `dev.azure.com`, `*.visualstudio.com` and the SSH form show
+  their active pull requests and WIQL-selected work items; Azure DevOps PAT and filters in the settings
 
 ### Changed
 
@@ -32,6 +34,9 @@ Author: *Bert Berrevoets*
 
 Author: *Bert Berrevoets*
 
+- Azure DevOps (Codex findings on PR #33): legacy `https://<org>.visualstudio.com` remotes no longer put the
+  URL scheme or a user name into the organization; percent-encoded names such as `My%20Project` are decoded,
+  encoded again for request paths, and single quotes are doubled in WIQL values
 - Release builds on `main` no longer produce `-beta` suffix in tags,
   GitHub Release names, and assembly metadata. The previous "Set stable
   version" step was ineffective because nbgv reads from committed git

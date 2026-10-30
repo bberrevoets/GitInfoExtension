@@ -47,7 +47,9 @@ connected repository within the IDE.
 - **GitHub repo**: `bberrevoets/GitInfoExtension` (public, MIT licence)
 - **Published**: on the VS Marketplace as "Git Info Extension" (publisher `BerrevoetsSystems`); v1.0.27 with 106
   installs on 2026-10-30. Changes reach real users.
-- **In progress**: Azure DevOps support (draft PR #33, Bert's unfinished work of 2026-03-09).
+- **Azure DevOps**: support merged in PR #33 (Bert's work of 2026-03-09) and shipped in v1.0.29; not yet tried
+  against a real Azure DevOps organization. `GitRepositoryDetector` stores decoded logical names in `RepoInfo`;
+  `AzureDevOpsService` encodes them as URL path segments and doubles single quotes in WIQL string values.
 
 ## Build and Development
 

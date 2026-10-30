@@ -14,8 +14,10 @@ internal class GitRepositoryDetector : IGitRepositoryDetector
         @"dev\.azure\.com/(?<org>[^/]+)/(?<project>[^/]+)/_git/(?<repo>[^/]+?)(?:\.git)?$",
         RegexOptions.Compiled);
 
+    // The organization is the first label of the hostname: it starts after "//" or "user@", so the URL scheme and
+    // any credentials stay out of it.
     private static readonly Regex AzDoLegacyUrlRegex = new(
-        @"(?<org>[^.]+)\.visualstudio\.com/(?<project>[^/]+)/_git/(?<repo>[^/]+?)(?:\.git)?$",
+        @"(?:^|[/@])(?<org>[^/@:.]+)\.visualstudio\.com/(?<project>[^/]+)/_git/(?<repo>[^/]+?)(?:\.git)?$",
         RegexOptions.Compiled);
 
     private static readonly Regex AzDoSshUrlRegex = new(
@@ -96,41 +98,25 @@ internal class GitRepositoryDetector : IGitRepositoryDetector
                         githubMatch.Groups["repo"].Value);
                 }
 
-                // Try Azure DevOps modern URL
-                var azDoModernMatch = AzDoModernUrlRegex.Match(url);
-                if (azDoModernMatch.Success)
+                // Try the Azure DevOps URL forms (modern, legacy, SSH)
+                foreach (var regex in new[] { AzDoModernUrlRegex, AzDoLegacyUrlRegex, AzDoSshUrlRegex })
                 {
-                    return new RepoInfo(
-                        azDoModernMatch.Groups["org"].Value,
-                        azDoModernMatch.Groups["repo"].Value,
-                        GitProvider.AzureDevOps,
-                        azDoModernMatch.Groups["project"].Value);
-                }
-
-                // Try Azure DevOps legacy URL
-                var azDoLegacyMatch = AzDoLegacyUrlRegex.Match(url);
-                if (azDoLegacyMatch.Success)
-                {
-                    return new RepoInfo(
-                        azDoLegacyMatch.Groups["org"].Value,
-                        azDoLegacyMatch.Groups["repo"].Value,
-                        GitProvider.AzureDevOps,
-                        azDoLegacyMatch.Groups["project"].Value);
-                }
-
-                // Try Azure DevOps SSH URL
-                var azDoSshMatch = AzDoSshUrlRegex.Match(url);
-                if (azDoSshMatch.Success)
-                {
-                    return new RepoInfo(
-                        azDoSshMatch.Groups["org"].Value,
-                        azDoSshMatch.Groups["repo"].Value,
-                        GitProvider.AzureDevOps,
-                        azDoSshMatch.Groups["project"].Value);
+                    var azDoMatch = regex.Match(url);
+                    if (azDoMatch.Success)
+                        return AzureDevOpsRepoInfo(azDoMatch);
                 }
             }
         }
 
         return null;
     }
+
+    // Remote URLs are percent-encoded ("My%20Project"); RepoInfo holds the logical names, which
+    // AzureDevOpsService encodes again for request paths and quotes for WIQL.
+    private static RepoInfo AzureDevOpsRepoInfo(Match match) =>
+        new(
+            Uri.UnescapeDataString(match.Groups["org"].Value),
+            Uri.UnescapeDataString(match.Groups["repo"].Value),
+            GitProvider.AzureDevOps,
+            Uri.UnescapeDataString(match.Groups["project"].Value));
 }
