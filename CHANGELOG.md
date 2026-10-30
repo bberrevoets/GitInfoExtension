@@ -2,9 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## Attributors
+
+- Bert Berrevoets (<bert@berrevoets.net>) — Berrevoets Systems
+- Claude Opus 4.6 — co-author of 24 of the 2026-03 commits
+- Claude Opus 5.5 — co-author of the 2026-10 AI agent setup
+
 ## [Unreleased]
 
+### Added
+
+Author: *Bert Berrevoets*
+
+- MIT licence ([LICENSE](LICENSE))
+
+### Changed
+
+Author: *Bert Berrevoets*
+
+- AI agent setup: `CLAUDE.md` moved to [AGENTS.md](AGENTS.md), the single instruction file for Claude Code,
+  Codex and other agents, with a `CLAUDE.md` stub that imports it; markdownlint at 180 characters (was 120);
+  the repo-init blocks in `.gitignore` and `.gitattributes`; a Conventions section in the README. `CLAUDE.md` is
+  no longer git-ignored: it was meant to be local-only on 2026-03-08 but was committed again the same day
+- GitHub Flow: `main` is now the default and only long-lived branch; the former `Development` branch (same
+  tree as `main`) and its ruleset were removed. `ci.yml` now runs on pushes and pull requests to `main`, and
+  every merge to `main` publishes a new Marketplace version
+
 ### Fixed
+
+Author: *Bert Berrevoets*
 
 - Release builds on `main` no longer produce `-beta` suffix in tags,
   GitHub Release names, and assembly metadata. The previous "Set stable
@@ -20,6 +46,8 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 2026-03-08
 
 ### Added
+
+Author: *Bert Berrevoets*
 
 - `MARKETPLACE.md` -- user-facing overview for the VS Marketplace page,
   separate from the developer-focused README
@@ -74,6 +102,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+Author: *Bert Berrevoets*
+
 - `publishManifest.json` now points `overview` to `MARKETPLACE.md`
   instead of `README.md`
 - Renamed extension from "GitHub Info" to "Git Info" to prepare for
@@ -98,12 +128,16 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+Author: *Bert Berrevoets*
+
 - Old `GithubInfoExtension` project directory and namespace (replaced
   by `GitInfoExtension`)
 
 ## [0.0.1] - 2026-03-07
 
 ### Added
+
+Author: *Bert Berrevoets*
 
 - Initial VS2026 extension scaffold with Hello World tool window
 - Extension entrypoint, command, tool window, and XAML content
