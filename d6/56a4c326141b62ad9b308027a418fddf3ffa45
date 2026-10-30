@@ -1,0 +1,37 @@
+GitInfoExtension/.vsextension/string-resources.json
+  s_920e7f1bc2f18c::t_f0fe1afc377e05 5,14-24
+GitInfoExtension/GitInfoExtensionEntrypoint.cs
+  s_920e7f1bc2f18c::t_33b7cb63118db8 16,18,23,34
+GitInfoExtension/GitInfoToolWindow.cs
+  s_920e7f1bc2f18c::t_65c9f1f2921e67 16-17,21-22
+GitInfoExtension/GitInfoToolWindowContent.xaml
+  s_920e7f1bc2f18c::t_3f9eeb205e126f 79-80,172
+GitInfoExtension/GitInfoToolWindowViewModel.cs
+  s_920e7f1bc2f18c::t_4715e5c0ade35e 4-5,20,35,40-41,46,108-114,178-201,219,225,233-247,272-317,371-391
+GitInfoExtension/Models/RepoInfo.cs
+  s_920e7f1bc2f18c::t_439344fde27e0c 3-9
+GitInfoExtension/Services/AzureDevOpsService.cs
+  s_920e7f1bc2f18c::t_9cb8a5d1c2f553 1-244
+GitInfoExtension/Services/GitRepositoryDetector.cs
+  s_920e7f1bc2f18c::t_bf12b643c7f722 13-24,89-123,126-129
+GitInfoExtension/Services/IAzureDevOpsService.cs
+  s_920e7f1bc2f18c::t_d9bf51e796faed 1-12
+GitInfoExtension/Settings/GitInfoSettings.cs
+  s_920e7f1bc2f18c::t_6677eb4c722ac3 39-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d656a4c326141b62ad9b308027a418fddf3ffa45",
+  "prompts": {},
+  "sessions": {
+    "s_920e7f1bc2f18c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "s_920e7f1bc2f18c",
+        "model": "unknown"
+      },
+      "human_author": "B.N. Berrevoets <bert@berrevoets.net>"
+    }
+  }
+}
