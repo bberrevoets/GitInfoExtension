@@ -1,0 +1,48 @@
+AGENTS.md
+  s_3289fec5d0d2ac::t_f07750016998c9 129-133
+  s_3289fec5d0d2ac::t_dad917b318fd65 152-158
+  s_3289fec5d0d2ac::t_a6874f84ae9a84 113
+  s_3289fec5d0d2ac::t_2cec178cfef2e0 1-5
+  s_3289fec5d0d2ac::t_c7155c452c8082 47-50
+  s_3289fec5d0d2ac::t_ff3d81afb5d679 142-144
+  s_3289fec5d0d2ac::t_3ba22f60626d10 6-8,44-46
+  s_3289fec5d0d2ac::t_975ce4d4930518 51-53,110-112
+  s_3289fec5d0d2ac::t_243d9570783e34 114-116,126-128
+  s_3289fec5d0d2ac::t_1f1b021dc0e535 134-136,139-141
+  s_3289fec5d0d2ac::t_79e2de3cb96af9 145-147,149-151
+  s_3289fec5d0d2ac::t_e782d3239e3200 9-43,54-109,117-125,137-138,148
+.gitattributes
+  s_3289fec5d0d2ac::t_b1afb7058c691a 1-19
+.github/workflows/ci.yml
+  s_3289fec5d0d2ac::t_c87cfb29bbd60b 5,7
+.gitignore
+  s_3289fec5d0d2ac::t_ca50ba56bcd1fe 24-35
+.markdownlint.json
+  s_3289fec5d0d2ac::t_0230bad5a969dd 3-5
+CHANGELOG.md
+  s_3289fec5d0d2ac::t_872d6fa24fda12 5-10,13-30,33-34,50-51,105-106,131-132,140-141
+CLAUDE.md
+  s_3289fec5d0d2ac::t_90a65b2d2ce320 3-4,6
+GitInfoExtension.slnx
+  s_3289fec5d0d2ac::t_32d793b5f7da51 3
+LICENSE
+  s_3289fec5d0d2ac::t_eb67fec66c5608 1-21
+README.md
+  s_3289fec5d0d2ac::t_c47da8ab5c13fe 119,127,151-156,162-176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a8b4514bcbb53b7cfba9c299a758270edbe665a6",
+  "prompts": {},
+  "sessions": {
+    "s_3289fec5d0d2ac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b6ebe094-6eb3-4908-b9f0-3da0e31abdef",
+        "model": "unknown"
+      },
+      "human_author": "B.N. Berrevoets <bert@berrevoets.net>"
+    }
+  }
+}
