@@ -36,4 +36,41 @@ internal static class GitInfoSettings
         {
             Description = "%GitInfoSettings.RefreshIntervalDescription%",
         };
+
+    // Azure DevOps settings
+
+    [VisualStudioContribution]
+    internal static Setting.String AzureDevOpsPat { get; } =
+        new("azureDevOpsPat", "%GitInfoSettings.AzureDevOps.PatTitle%", GitInfoCategory, defaultValue: string.Empty)
+        {
+            Description = "%GitInfoSettings.AzureDevOps.PatDescription%",
+        };
+
+    [VisualStudioContribution]
+    internal static Setting.String AzureDevOpsMainProject { get; } =
+        new("azureDevOpsMainProject", "%GitInfoSettings.AzureDevOps.MainProjectTitle%", GitInfoCategory, defaultValue: string.Empty)
+        {
+            Description = "%GitInfoSettings.AzureDevOps.MainProjectDescription%",
+        };
+
+    [VisualStudioContribution]
+    internal static Setting.String AzureDevOpsTagFilter { get; } =
+        new("azureDevOpsTagFilter", "%GitInfoSettings.AzureDevOps.TagFilterTitle%", GitInfoCategory, defaultValue: string.Empty)
+        {
+            Description = "%GitInfoSettings.AzureDevOps.TagFilterDescription%",
+        };
+
+    [VisualStudioContribution]
+    internal static Setting.String AzureDevOpsStates { get; } =
+        new("azureDevOpsStates", "%GitInfoSettings.AzureDevOps.StatesTitle%", GitInfoCategory, defaultValue: "New,Active,Resolved")
+        {
+            Description = "%GitInfoSettings.AzureDevOps.StatesDescription%",
+        };
+
+    [VisualStudioContribution]
+    internal static Setting.String AzureDevOpsAssignedTo { get; } =
+        new("azureDevOpsAssignedTo", "%GitInfoSettings.AzureDevOps.AssignedToTitle%", GitInfoCategory, defaultValue: string.Empty)
+        {
+            Description = "%GitInfoSettings.AzureDevOps.AssignedToDescription%",
+        };
 }

@@ -2,7 +2,7 @@
   "GitInfoExtension.GitInfoToolWindowCommand.DisplayName": "Git Info",
   "GitInfoSettings.CategoryTitle": "Git Info Extension",
   "GitInfoSettings.CategoryDescription": "Settings for Git Info Extension",
-  "GitInfoSettings.PatTitle": "Personal Access Token",
+  "GitInfoSettings.PatTitle": "GitHub Personal Access Token",
   "GitInfoSettings.PatDescription": "GitHub Personal Access Token for authenticated API access. Required for private repos and higher rate limits.",
   "GitInfoSettings.RefreshIntervalTitle": "Auto-Refresh Interval",
   "GitInfoSettings.RefreshIntervalDescription": "How often the tool window automatically refreshes data from the provider.",
@@ -11,5 +11,15 @@
   "GitInfoSettings.RefreshInterval.2Min": "2 minutes",
   "GitInfoSettings.RefreshInterval.5Min": "5 minutes",
   "GitInfoSettings.RefreshInterval.10Min": "10 minutes",
-  "GitInfoSettings.RefreshInterval.30Min": "30 minutes"
+  "GitInfoSettings.RefreshInterval.30Min": "30 minutes",
+  "GitInfoSettings.AzureDevOps.PatTitle": "Azure DevOps Personal Access Token",
+  "GitInfoSettings.AzureDevOps.PatDescription": "Azure DevOps Personal Access Token with Code (Read) and Work Items (Read) scopes.",
+  "GitInfoSettings.AzureDevOps.MainProjectTitle": "Main Project",
+  "GitInfoSettings.AzureDevOps.MainProjectDescription": "Central project where work items are tracked. Leave empty to use the project from the remote URL.",
+  "GitInfoSettings.AzureDevOps.TagFilterTitle": "Work Item Tag Filter",
+  "GitInfoSettings.AzureDevOps.TagFilterDescription": "Tag to filter work items by. Leave empty to use the project name from the remote URL.",
+  "GitInfoSettings.AzureDevOps.StatesTitle": "Work Item States",
+  "GitInfoSettings.AzureDevOps.StatesDescription": "Comma-separated work item states to include (e.g. New,Active,Resolved).",
+  "GitInfoSettings.AzureDevOps.AssignedToTitle": "Assigned To",
+  "GitInfoSettings.AzureDevOps.AssignedToDescription": "Filter work items by assigned person. Use @me for the PAT owner. Leave empty for all."
 }

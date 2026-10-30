@@ -1,6 +1,8 @@
 namespace GitInfoExtension;
 
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using GitInfoExtension.Models;
 using GitInfoExtension.Services;
@@ -15,6 +17,7 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
 {
     private readonly IGitRepositoryDetector _repoDetector;
     private readonly IGitHubService _gitHubService;
+    private readonly IAzureDevOpsService _azureDevOpsService;
     private readonly VisualStudioExtensibility _extensibility;
 
     private CancellationTokenSource? _autoRefreshCts;
@@ -29,15 +32,18 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
     private string _repositoryName = string.Empty;
     private string _repoListVisibility = "Collapsed";
     private string _repoDetailVisibility = "Visible";
+    private string _itemsSectionTitle = "Issues";
 
     public GitInfoToolWindowViewModel(
         VisualStudioExtensibility extensibility,
         IGitRepositoryDetector repoDetector,
-        IGitHubService gitHubService)
+        IGitHubService gitHubService,
+        IAzureDevOpsService azureDevOpsService)
     {
         _extensibility = extensibility;
         _repoDetector = repoDetector;
         _gitHubService = gitHubService;
+        _azureDevOpsService = azureDevOpsService;
         RefreshCommand = new AsyncCommand(ExecuteRefreshAsync);
     }
 
@@ -97,6 +103,13 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
     {
         get => _repoDetailVisibility;
         set => SetProperty(ref _repoDetailVisibility, value);
+    }
+
+    [DataMember]
+    public string ItemsSectionTitle
+    {
+        get => _itemsSectionTitle;
+        set => SetProperty(ref _itemsSectionTitle, value);
     }
 
     [DataMember]
@@ -162,6 +175,30 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
             RepoListVisibility = "Collapsed";
             RepoDetailVisibility = "Collapsed";
         }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            StatusMessage = "Invalid Azure DevOps Personal Access Token.";
+            RepoListVisibility = "Collapsed";
+            RepoDetailVisibility = "Collapsed";
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            StatusMessage = "Azure DevOps project or repository not found. Check your settings.";
+            RepoListVisibility = "Collapsed";
+            RepoDetailVisibility = "Collapsed";
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Forbidden)
+        {
+            StatusMessage = "Azure DevOps access denied. Check PAT scopes (Code Read, Work Items Read).";
+            RepoListVisibility = "Collapsed";
+            RepoDetailVisibility = "Collapsed";
+        }
+        catch (HttpRequestException ex)
+        {
+            StatusMessage = $"Azure DevOps API error: {ex.Message}";
+            RepoListVisibility = "Collapsed";
+            RepoDetailVisibility = "Collapsed";
+        }
         catch (Exception ex)
         {
             StatusMessage = $"Error: {ex.Message}";
@@ -179,13 +216,13 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
     {
         RepoDetailVisibility = "Visible";
         RepoListVisibility = "Collapsed";
-        IssuesStatusMessage = "Loading issues...";
+        IssuesStatusMessage = "Loading...";
         PullRequestStatusMessage = "Loading pull requests...";
 
         var repoInfo = _repoDetector.DetectRepository(solutionDir);
         if (repoInfo == null)
         {
-            StatusMessage = "No GitHub repository detected.";
+            StatusMessage = "No GitHub or Azure DevOps repository detected.";
             IssuesStatusMessage = string.Empty;
             PullRequestStatusMessage = string.Empty;
             RepoDetailVisibility = "Collapsed";
@@ -193,6 +230,21 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
             return;
         }
 
+        if (repoInfo.Provider == GitProvider.AzureDevOps)
+        {
+            await LoadAzureDevOpsDetailAsync(repoInfo, cancellationToken);
+        }
+        else
+        {
+            await LoadGitHubDetailAsync(repoInfo, pat, cancellationToken);
+        }
+    }
+
+    private async Task LoadGitHubDetailAsync(
+        RepoInfo repoInfo, string? pat, CancellationToken cancellationToken)
+    {
+        ItemsSectionTitle = "Issues";
+        IssuesStatusMessage = "Loading issues...";
         RepositoryName = $"{repoInfo.Owner}/{repoInfo.RepositoryName}";
 
         var result = await _gitHubService.GetOpenItemsAsync(
@@ -215,6 +267,52 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
         PullRequestStatusMessage = result.PullRequests.Count == 0
             ? "No open pull requests."
             : $"{result.PullRequests.Count} open pull request{(result.PullRequests.Count == 1 ? "" : "s")}.";
+    }
+
+    private async Task LoadAzureDevOpsDetailAsync(
+        RepoInfo repoInfo, CancellationToken cancellationToken)
+    {
+        ItemsSectionTitle = "Work Items";
+        IssuesStatusMessage = "Loading work items...";
+        RepositoryName = $"{repoInfo.Owner}/{repoInfo.Project}/{repoInfo.RepositoryName}";
+
+        var azDoPat = await ReadAzureDevOpsPatAsync(cancellationToken);
+        if (string.IsNullOrWhiteSpace(azDoPat))
+        {
+            StatusMessage = "Configure an Azure DevOps PAT in Tools > Options > Git Info Extension > Azure DevOps.";
+            IssuesStatusMessage = string.Empty;
+            PullRequestStatusMessage = string.Empty;
+            RepoDetailVisibility = "Collapsed";
+            return;
+        }
+
+        var mainProject = await ReadSettingAsync(GitInfoSettings.AzureDevOpsMainProject, cancellationToken);
+        var tagFilter = await ReadSettingAsync(GitInfoSettings.AzureDevOpsTagFilter, cancellationToken);
+        var statesFilter = await ReadSettingAsync(GitInfoSettings.AzureDevOpsStates, cancellationToken);
+        var assignedTo = await ReadSettingAsync(GitInfoSettings.AzureDevOpsAssignedTo, cancellationToken);
+
+        var result = await _azureDevOpsService.GetOpenItemsAsync(
+            repoInfo.Owner, repoInfo.Project!, repoInfo.RepositoryName,
+            mainProject, tagFilter, statesFilter, assignedTo,
+            azDoPat, cancellationToken);
+
+        foreach (var issue in result.Issues)
+        {
+            Issues.Add(issue);
+        }
+
+        foreach (var pr in result.PullRequests)
+        {
+            PullRequests.Add(pr);
+        }
+
+        IssuesStatusMessage = result.Issues.Count == 0
+            ? "No matching work items."
+            : $"{result.Issues.Count} work item{(result.Issues.Count == 1 ? "" : "s")}.";
+
+        PullRequestStatusMessage = result.PullRequests.Count == 0
+            ? "No active pull requests."
+            : $"{result.PullRequests.Count} active pull request{(result.PullRequests.Count == 1 ? "" : "s")}.";
     }
 
     private async Task LoadUserRepositoriesAsync(
@@ -263,6 +361,27 @@ internal class GitInfoToolWindowViewModel : NotifyPropertyChangedObject
                 GitInfoSettings.PersonalAccessToken, cancellationToken);
             var pat = patResult.Value;
             return string.IsNullOrWhiteSpace(pat) ? null : pat;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private async Task<string?> ReadAzureDevOpsPatAsync(CancellationToken cancellationToken)
+    {
+        return await ReadSettingAsync(GitInfoSettings.AzureDevOpsPat, cancellationToken);
+    }
+
+    private async Task<string?> ReadSettingAsync(
+        Setting.String setting, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _extensibility.Settings().ReadEffectiveValueAsync(
+                setting, cancellationToken);
+            var value = result.Value;
+            return string.IsNullOrWhiteSpace(value) ? null : value;
         }
         catch
         {

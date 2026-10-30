@@ -1,3 +1,9 @@
 namespace GitInfoExtension.Models;
 
-internal record RepoInfo(string Owner, string RepositoryName);
+internal enum GitProvider { GitHub, AzureDevOps }
+
+internal record RepoInfo(
+    string Owner,
+    string RepositoryName,
+    GitProvider Provider = GitProvider.GitHub,
+    string? Project = null);

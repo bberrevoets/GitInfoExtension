@@ -13,11 +13,13 @@ internal class GitInfoToolWindow : ToolWindow
     public GitInfoToolWindow(
         VisualStudioExtensibility extensibility,
         IGitRepositoryDetector repoDetector,
-        IGitHubService gitHubService)
+        IGitHubService gitHubService,
+        IAzureDevOpsService azureDevOpsService)
         : base(extensibility)
     {
         Title = "Git Info";
-        _viewModel = new GitInfoToolWindowViewModel(extensibility, repoDetector, gitHubService);
+        _viewModel = new GitInfoToolWindowViewModel(
+            extensibility, repoDetector, gitHubService, azureDevOpsService);
     }
 
     public override ToolWindowConfiguration ToolWindowConfiguration => new()

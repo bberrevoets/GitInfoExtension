@@ -13,13 +13,14 @@ internal class GitInfoExtensionEntrypoint : Extension
             version: ExtensionAssemblyVersion,
             publisherName: "Berrevoets Systems",
             displayName: "Git Info Extension",
-            description: "View open issues and pull requests for the "
+            description: "View open issues, work items, and pull requests for the "
                 + "currently loaded repository directly inside Visual Studio. "
+                + "Supports GitHub and Azure DevOps. "
                 + "Automatic repo detection, configurable auto-refresh, "
                 + "and solution switch detection.")
         {
             MoreInfo = "https://github.com/bberrevoets/GitInfoExtension",
-            Tags = ["GitHub", "Git", "Issues", "Pull Requests", "Repository"],
+            Tags = ["GitHub", "Azure DevOps", "Git", "Issues", "Work Items", "Pull Requests", "Repository"],
             Icon = "Images/Icon.png",
             PreviewImage = "Images/PreviewImage.png",
         },
@@ -30,5 +31,6 @@ internal class GitInfoExtensionEntrypoint : Extension
         base.InitializeServices(serviceCollection);
         serviceCollection.AddSingleton<Services.IGitRepositoryDetector, Services.GitRepositoryDetector>();
         serviceCollection.AddSingleton<Services.IGitHubService, Services.GitHubService>();
+        serviceCollection.AddSingleton<Services.IAzureDevOpsService, Services.AzureDevOpsService>();
     }
 }
