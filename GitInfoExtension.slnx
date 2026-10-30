@@ -2,7 +2,6 @@
   <Folder Name="/Documentation/">
     <File Path="AGENTS.md" />
     <File Path="CHANGELOG.md" />
-    <File Path="CLAUDE.md" />
     <File Path="MARKETPLACE.md" />
     <File Path="README.md" />
   </Folder>
